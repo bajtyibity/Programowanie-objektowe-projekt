@@ -1,0 +1,11 @@
+-min 3 kontrolery crud dto
+dokumentacja
+baza danych json 
+
+interfejsy
+walidacja
+obsługa wyjatkow
+relacyjna baza danych 
+
+3testy dla endpointów postman xunit
+historia repo
