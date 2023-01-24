@@ -4,3 +4,5 @@ python -m pip install --upgrade pip
 pip install django
 python -m django --version
 django-admin startproject project .
+Python manage.py startapp app
+pip install mysqlclient 
