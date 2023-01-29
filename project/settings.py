@@ -79,10 +79,15 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
+#zmiana na baze mariadb
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'NAME': 'projektdb',
+        'USER': 'root',
+        'PASSWORD': 'zaq1@WSX',
+        'HOST': 'localhost',
+        'PORT': '3306'
     }
 }
 
