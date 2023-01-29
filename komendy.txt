@@ -6,3 +6,6 @@ python -m django --version
 django-admin startproject project .
 Python manage.py startapp app
 pip install mysqlclient 
+stworzenie modelu
+pip install django-cors-headers
+Python manage.py makemigrations
