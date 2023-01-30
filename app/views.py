@@ -14,18 +14,16 @@ from rest_framework.decorators import api_view
 # Create your views here.
 @api_view(['GET','POST'])
 def lekarze_lista(request):
-    #stworzenie listy objektów
     if request.method == "GET":
-        lekarze = Lekarz.object.all()
+        lekarze = Lekarz.objects.all()
 
-        #wyszukiwanie po imieniu w liscie objektów
-        name=request.GET.get('name',None)
+        name=request.GET.get('imie',None)
         if name is not None:
             lekarze = lekarze.filter(name__icontains=name)
-        #serializer to formatu json
+
         lekarzserializers = Lekarzserializers(lekarze,many=True)
         return JsonResponse(lekarzserializers.data,safe=False)
-    #jesli jest post przypisuje lekarzowi jego dane i zwraca czy dane są poprawne a jak nie wyswietla errory
+
     elif request.method == 'POST':
         lekarze_dane = JSONParser().parse(request)
         lekarzserializers = Lekarzserializers(data=lekarze_dane)
@@ -36,81 +34,68 @@ def lekarze_lista(request):
 
 @api_view(['GET','PUT','DELETE'])
 def lekarz_detail(request,pl):
-    #obsługa błędów patrzenie czy istnieje
     try:
-        lekarz=Lekarz.objects.get(pl=pl)
+        lekarz=Lekarz.objects.get(lekarz_id=pl)
     except Lekarz.DoesNotExist:
         return JsonResponse({'message':'ten lekarz nie istnieje'},status=status.HTTP_404_NOT_FOUND)
 
-    #jesli metoda post zwraca jsona z danymu lakarza
     if request.method=="GET":
-        lekarzserializers = Lekarzserializers(Lekarz)
-        return JsonResponse(lekarzserializers.data)
-    #zapisuje lekarza tworzy
+        lekarz_serializers = Lekarzserializers(lekarz)
+        return JsonResponse(lekarz_serializers.data)
+    
     elif request.method=="PUT":
         lekarz_data = JSONParser().parse(request)
-        Lekarzserializers=Lekarzserializers(Lekarz,data=lekarz_data)
-        if lekarzserializers.is_valid():
-            lekarzserializers.save()
-            return JsonResponse(lekarzserializers.data)
-        return JsonResponse(lekarzserializers.errors,status=status.HTTP_400_BAD_REQUEST)
-    #usuwa lekarza
+        Lekarz_serializers=Lekarzserializers(lekarz,data=lekarz_data)
+        if Lekarz_serializers.is_valid():
+           Lekarz_serializers.save()
+           return JsonResponse(Lekarz_serializers.data)
+        return JsonResponse(Lekarz_serializers.errors,status=status.HTTP_400_BAD_REQUEST)
+
     elif request.method=="DELETE":
         lekarz.delete()
         return JsonResponse({'message':'lekarz usuniety bezproblemowo XD'},status=status.HTTP_204_NO_CONTENT)
 
 # pacjent
-
+#widok ogólnie zapytania
 @api_view(['GET','POST'])
-#stworzenie listy objektów
 def pacjent_lista(request):
     if request.method == "GET":
-        pacjent = Pacjent.object.all()
+        pacjenci = Pacjent.objects.all()
 
-        #wyszukiwanie po imieniu w liscie objektów
-        name=request.GET.get('name',None)
+        name=request.GET.get('imie',None)
         if name is not None:
-            pacjent = pacjent.filter(name__icontains=name)
-        #serializer to formatu json
-        pacjentserializers = Pacjentserializers(pacjent,many=True)
+            pacjenci = pacjenci.filter(name__icontains=name)
+
+        pacjentserializers = Pacjentserializers(pacjenci,many=True)
         return JsonResponse(pacjentserializers.data,safe=False)
 
-     #jesli jest post przypisuje lekarzowi jego dane i zwraca czy dane są poprawne a jak nie wyswietla errory
     elif request.method == 'POST':
-        pacjent_dane = JSONParser().parse(request)
-        pacjentserializers = Pacjentserializers(data=pacjent_dane)
+        Pacjent_dane = JSONParser().parse(request)
+        pacjentserializers = Pacjentserializers(data=Pacjent_dane)
         if pacjentserializers.is_valid():
             pacjentserializers.save()
             return JsonResponse(pacjentserializers.data,status=status.HTTP_201_CREATED)
         return JsonResponse(pacjentserializers.errors,status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET','PUT','DELETE'])
-def pacient_detail(request,pl):
-    #obsługa błędów jesli nie znaleziono
+def pacjent_detail(request,pl):
     try:
-        pacjent=Pacjent.objects.get(pl=pl)
+        pacjent=Pacjent.objects.get(pacjent_id=pl)
     except Pacjent.DoesNotExist:
         return JsonResponse({'message':'ten pacjent nie istnieje'},status=status.HTTP_404_NOT_FOUND)
 
-    #jesli metoda post zwraca jsona z danymu lakarza
     if request.method=="GET":
-        pacjentserializers = Pacjentserializers(Pacjent)
-        return JsonResponse(pacjentserializers.data)
+        pacjent_serializers = Pacjentserializers(pacjent)
+        return JsonResponse(pacjent_serializers.data)
     
-    #tworzy lekarza
     elif request.method=="PUT":
         pacjent_data = JSONParser().parse(request)
-        Pacjentserializers=Pacjentserializers(Pacjent,data=pacjent_data)
-        if pacjentserializers.is_valid():
-            pacjentserializers.save()
-            return JsonResponse(pacjentserializers.data)
-        return JsonResponse(pacjentserializers.errors,status=status.HTTP_400_BAD_REQUEST)
-    #usuwa lekarza
+        pacjent_serializers=Pacjentserializers(pacjent,data=pacjent_data)
+        if pacjent_serializers.is_valid():
+           pacjent_serializers.save()
+           return JsonResponse(pacjent_serializers.data)
+        return JsonResponse(pacjent_serializers.errors,status=status.HTTP_400_BAD_REQUEST)
+
     elif request.method=="DELETE":
         pacjent.delete()
         return JsonResponse({'message':'pacjent usuniety bezproblemowo XD'},status=status.HTTP_204_NO_CONTENT)
-
-
-
-
-

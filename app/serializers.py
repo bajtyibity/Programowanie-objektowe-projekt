@@ -6,11 +6,11 @@ from app.models import Pacjent
 class Lekarzserializers(serializers.ModelSerializer):
     class Meta:
         model = Lekarz
-        fields = ('lekarz_id','imie_pacjenta','nazwisko_pacjenta')
+        fields = ('lekarz_id','imie','nazwisko')
 
 #serializer dla pacjenta
 class Pacjentserializers(serializers.ModelSerializer):
     class Meta:
         model = Pacjent
-        fields = ('pacjent_id','imie_pacjenta','nazwisko_pacjenta')
+        fields = ('pacjent_id','imie','nazwisko')
 
