@@ -13,3 +13,6 @@ python manage.py migrate app
 python manage.py migrate
 
 python manage.py runserver
+
+Krzysztof
+zaq1@WSX
