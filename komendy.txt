@@ -14,5 +14,7 @@ python manage.py migrate
 
 python manage.py runserver
 
+
+superuser login
 Krzysztof
 zaq1@WSX
