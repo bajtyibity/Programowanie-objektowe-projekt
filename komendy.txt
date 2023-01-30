@@ -9,3 +9,7 @@ pip install mysqlclient
 stworzenie modelu
 pip install django-cors-headers
 Python manage.py makemigrations
+python manage.py migrate app
+python manage.py migrate
+
+python manage.py runserver
